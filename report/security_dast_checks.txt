@@ -1,0 +1,12 @@
+Safe manual runtime checks (DAST perspective), only on my own apps, 24.11.2026 ~22:53. No scanners, no third-party targets.
+
+Code-based (live Bolt site):
+  duration field <- '<img src=x onerror=window.__xss=1>'  => browser number input rejects it (value ''), card "Unavailable | Duration is required.", xss flag 0, no <img> in DOM
+  duration field <- '60; DROP TABLE bookings'             => value '', "Duration is required."
+  start field    <- '<script>'                            => value '', "Start time is required."
+  (logic-level checks for 'abc', '1.5', '60m', '1e2', '-5' are unit tests in checkRequest.test.ts)
+
+Low-code (Appsmith deployed app):
+  start field    <- '<img src=x onerror=window.__xss=1>'  => shown as plain text in the input, result "Start time is required.", xss flag 0, no <img> in DOM
+  start field    <- '{{appsmith.user.email}}'             => treated as plain text, not evaluated; "Start time is required."
+  duration field <- '60; DROP TABLE bookings'             => text stays in the field, result "Duration is required."  <-- misleading message (NUMBER widget gives .text = ''), code version says "Duration must be a whole number of minutes."

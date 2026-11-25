@@ -1,0 +1,10 @@
+Code-based version, live site after publish (Bolt version 12, 24.11.2026 ~21:57), bundle index-zh8yYGxH.js
+Inputs set with a script in the browser, result card text read from the page.
+T1: 13:00 +60 blocked=false -> Available | This time slot is available.
+T2: 10:30 +60 blocked=false -> Unavailable | Overlaps with existing booking 10:00–11:00.
+T3: 13:00 +60 blocked=true -> Unavailable | Room is currently blocked and cannot be booked.
+T4: 13:00 +0 blocked=false -> Unavailable | Duration must be greater than 0 minutes.
+T5: 13:00 +121 blocked=false -> Unavailable | Maximum duration is 120 minutes.
+T6: 08:00 +30 blocked=false -> Unavailable | Start must be after current time 09:00.
+T7: 11:00 +60 blocked=false -> Available | This time slot is available.
+T8: bookings before "10:00 – 11:00 Confirmed", after the same -> unchanged=true
