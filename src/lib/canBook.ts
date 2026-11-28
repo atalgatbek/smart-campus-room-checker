@@ -32,7 +32,7 @@ export function canBook(
   end: number,
   now: number,
   blocked: boolean,
-  existing: Booking[]
+  existing: readonly Booking[]
 ): BookingResult {
   // AC1: bounds and ordering
   if (start < 0 || start > MINUTES_PER_DAY || end < 0 || end > MINUTES_PER_DAY) {

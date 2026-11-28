@@ -14,6 +14,8 @@ export const ROOM_LABEL_MAX = 60;
 export const EXPLANATION_MAX = 300;
 
 const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
+// The end of a slot may be exactly 24:00 (end of the day).
+const HHMM_END = /^(([01]\d|2[0-3]):[0-5]\d|24:00)$/;
 
 export function isValidExplanationRequest(value: unknown): value is ExplanationRequest {
   if (typeof value !== 'object' || value === null) return false;
@@ -25,10 +27,12 @@ export function isValidExplanationRequest(value: unknown): value is ExplanationR
     typeof v.start === 'string' &&
     HHMM.test(v.start) &&
     typeof v.end === 'string' &&
-    HHMM.test(v.end) &&
+    HHMM_END.test(v.end) &&
     typeof v.isAvailable === 'boolean' &&
     typeof v.reasonCode === 'string' &&
-    REASON_CODES.includes(v.reasonCode as ReasonCode)
+    REASON_CODES.includes(v.reasonCode as ReasonCode) &&
+    // The verdict and its reason must agree: only AVAILABLE can go with isAvailable = true.
+    v.isAvailable === (v.reasonCode === 'AVAILABLE')
   );
 }
 

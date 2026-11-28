@@ -34,10 +34,10 @@ describe('isValidExplanationRequest', () => {
     expect(isValidExplanationRequest({ ...validRequest, start: '' })).toBe(false);
   });
 
-  it('rejects impossible times (regression: 24:00 and 99:99)', () => {
+  it('rejects impossible times (regression: 24:00 as a start, 24:30 and 99:99)', () => {
     expect(isValidExplanationRequest({ ...validRequest, start: '24:00' })).toBe(false);
     expect(isValidExplanationRequest({ ...validRequest, start: '99:99' })).toBe(false);
-    expect(isValidExplanationRequest({ ...validRequest, end: '24:00' })).toBe(false);
+    expect(isValidExplanationRequest({ ...validRequest, end: '24:30' })).toBe(false);
     expect(isValidExplanationRequest({ ...validRequest, end: '99:99' })).toBe(false);
   });
 

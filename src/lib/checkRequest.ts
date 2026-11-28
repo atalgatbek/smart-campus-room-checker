@@ -1,11 +1,24 @@
 import { canBook, type Booking, type BookingResult } from '@/lib/canBook';
-import { parseHHMM } from '@/lib/time';
+import { formatMinutes, parseHHMM } from '@/lib/time';
 
 /** Parses the duration field. Only whole minutes are accepted, otherwise null. */
 export function parseDuration(value: string): number | null {
   const text = value.trim();
   if (!/^-?\d+$/.test(text)) return null;
   return Number(text);
+}
+
+/**
+ * End time shown under the duration field ("Ends at HH:MM") and sent to the explanation.
+ * Empty when the input is invalid or the slot would end after 24:00.
+ * A slot may end exactly at 24:00 (the rules allow end = 1440).
+ */
+export function endTimeOf(startTime: string, durationText: string): string {
+  const start = parseHHMM(startTime);
+  const duration = parseDuration(durationText);
+  if (start === null || duration === null || duration <= 0) return '';
+  const end = start + duration;
+  return end <= 1440 ? formatMinutes(end) : '';
 }
 
 /**
@@ -17,7 +30,7 @@ export function checkRequest(
   durationText: string,
   now: number,
   blocked: boolean,
-  bookings: Booking[]
+  bookings: readonly Booking[]
 ): BookingResult {
   const start = parseHHMM(startTime);
   const durationMissing = durationText.trim() === '';

@@ -2,17 +2,17 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Clock, Lock, Unlock, CalendarDays, CheckCircle2, XCircle, Sparkles } from 'lucide-react';
 import type { Booking } from '@/lib/canBook';
 import type { ReasonCode } from '@/lib/canBook';
-import { checkRequest, parseDuration } from '@/lib/checkRequest';
+import { checkRequest, endTimeOf } from '@/lib/checkRequest';
 import { fallbackExplanation, type ExplanationRequest } from '@/lib/explainValidation';
 import { mockExplain, type MockMode } from '@/lib/mockExplain';
 import { INITIAL_BOOKINGS, NOW } from '@/lib/fixtures';
-import { formatMinutes, parseHHMM } from '@/lib/time';
+import { formatMinutes } from '@/lib/time';
 
 function App() {
   const [startTime, setStartTime] = useState('11:00');
   const [duration, setDuration] = useState('60');
   const [blocked, setBlocked] = useState(false);
-  const [bookings] = useState<Booking[]>(INITIAL_BOOKINGS);
+  const [bookings] = useState<readonly Booking[]>(INITIAL_BOOKINGS);
   const [mockMode, setMockMode] = useState<MockMode>('normal');
   const [explanation, setExplanation] = useState<string | null>(null);
   const [explanationError, setExplanationError] = useState(false);
@@ -35,12 +35,7 @@ function App() {
   );
 
   // End time shown to the user and sent to the explanation (empty when the input is invalid).
-  const startMinutes = parseHHMM(startTime);
-  const durationMinutes = parseDuration(duration);
-  const endTime =
-    startMinutes !== null && durationMinutes !== null && durationMinutes > 0 && startMinutes + durationMinutes < 1440
-      ? formatMinutes(startMinutes + durationMinutes)
-      : '';
+  const endTime = endTimeOf(startTime, duration);
 
   const isAvailable = result.status === 'valid' && result.available;
 

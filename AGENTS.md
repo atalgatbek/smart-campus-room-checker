@@ -18,10 +18,11 @@ An "Explain availability" button shows a short explanation from a mock AI adapte
 - `src/lib/explainValidation.ts` - explanation request/response schema checks and fallback text
 - `src/lib/mockExplain.ts` - mock AI adapter (modes normal / slow / error, 3 s timeout, cancellable)
 - `src/App.tsx` - UI (React + Tailwind)
-- `src/lib/*.test.ts` - regression tests for the rules (`contract.test.ts` = the 8 shared Practice #12 cases); `tests/*.test.ts` - repository checks
+- `src/lib/*.test.ts` - regression tests for the rules (`contract.test.ts` = the 8 shared Practice #12 cases, `reviewFixes.test.ts` = fixes from the Assignment #06 review); `tests/*.test.ts` - repository checks
+- `public/_headers` - security headers for the published site
 
 ## Acceptance criteria (do not change behavior)
-- AC1: the start time must be in the future (strictly after 09:00; 09:00 itself is rejected) and the slot must end by 24:00.
+- AC1: the start time must be in the future (strictly after 09:00; 09:00 itself is rejected) and the slot must end by 24:00 (24:00 itself is a valid end time).
 - AC2: the duration is a whole number of minutes, greater than 0 and at most 120 (120 is allowed, 121 is not).
 - AC3: overlapping bookings are unavailable; touching endpoints are allowed (11:00 + 60 after 10:00-11:00 is OK).
 - AC4: a blocked room is always Unavailable.
@@ -58,7 +59,7 @@ An "Explain availability" button shows a short explanation from a mock AI adapte
 ## Engineering rules
 - Prefer pure functions and the smallest change that fixes the problem.
 - Use at most 2 design patterns and only with a concrete reason. No Repository, Singleton, Factory or class hierarchies without a real need.
-- Do not mutate booking fixtures.
+- Do not mutate booking fixtures (they are frozen with `Object.freeze`).
 - Do not leave unused dependencies in `package.json`.
 
 ## Verification and review gate
