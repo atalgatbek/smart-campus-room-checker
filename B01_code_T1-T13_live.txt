@@ -1,0 +1,17 @@
+Code-based version, live site after publish (bundle index-hgI8T_R8.js), 28.11.2026 16:10 (GMT+5)
+Inputs set with a script in the browser (native value setter + input event, like typing), result card read from the page.
+T1  13:00 +60  open    -> Available | This time slot is available. | hint: Ends at 14:00
+T2  10:30 +60  open    -> Unavailable | Overlaps with existing booking 10:00–11:00. | hint: Ends at 11:30
+T3  13:00 +60  blocked -> Unavailable | Room is currently blocked and cannot be booked.
+T4  13:00 +0           -> Unavailable | Duration must be greater than 0 minutes. | hint: Max 120 minutes
+T5  13:00 +121         -> Unavailable | Maximum duration is 120 minutes. | hint: Ends at 15:01
+T6  12:00 +120         -> Available | This time slot is available. | hint: Ends at 14:00
+T7  11:00 +60          -> Available | This time slot is available. | hint: Ends at 12:00
+T8  09:00 +30          -> Unavailable | Start must be after current time 09:00.
+T9  08:00 +30          -> Unavailable | Start must be after current time 09:00.
+T10 13:00 + (empty)    -> Unavailable | Duration is required. | hint: Max 120 minutes
+T11 23:00 +60          -> Available | This time slot is available. | hint: Ends at 24:00
+T12 12 checks (overlap, free, blocked, free) x3 -> 3 distinct results, always the same for the same input;
+    bookings before "10:00 – 11:00 Confirmed", after "10:00 – 11:00 Confirmed"
+T13 13:00 + "60; DROP TABLE bookings" -> number field keeps no text (value ""), "Unavailable | Duration is required."
+Automated: src/lib/contract.test.ts (T1-T8 of Practice #12) + reviewFixes.test.ts, 75/75 passed at 16:07:13.

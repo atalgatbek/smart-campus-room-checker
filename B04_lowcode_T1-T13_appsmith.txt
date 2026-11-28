@@ -1,0 +1,16 @@
+Low-code version, Appsmith deployed app "Smart Campus Low-code", 28.11.2026 16:11 (GMT+5)
+Inputs set with a script in the browser (native value setter + input event), switch clicked, ResultText read from the page.
+T1  13:00 +60  open    -> Available | This time slot is available. | Reason code: AVAILABLE
+T2  10:30 +60  open    -> Unavailable | Overlaps with existing booking 10:00–11:00. | Reason code: OVERLAP
+T3  13:00 +60  blocked -> Unavailable | Room is currently blocked and cannot be booked. | Reason code: BLOCKED
+T4  13:00 +0           -> Unavailable | Duration must be greater than 0 minutes. | Reason code: INVALID_DURATION
+T5  13:00 +121         -> Unavailable | Maximum duration is 120 minutes. | Reason code: TOO_LONG
+T6  12:00 +120         -> Available | This time slot is available. | Reason code: AVAILABLE
+T7  11:00 +60          -> Available | This time slot is available. | Reason code: AVAILABLE
+T8  09:00 +30          -> Unavailable | Start must be after current time 09:00. | Reason code: PAST_TIME
+T9  08:00 +30          -> Unavailable | Start must be after current time 09:00. | Reason code: PAST_TIME
+T10 13:00 + (empty)    -> Unavailable | Duration is required. | Reason code: MISSING_INPUT
+T11 23:00 +60          -> Available | This time slot is available. | Reason code: AVAILABLE
+T12 12 checks (overlap, free, blocked, free) x3 -> 3 distinct results; bookings text unchanged:
+    "Existing bookings (read-only): 10:00–11:00 Confirmed"
+T13 13:00 + "60; DROP TABLE bookings" -> text STAYS in the field (red border), "Unavailable | Duration is required. | Reason code: MISSING_INPUT"  => FAIL (message does not match what the user sees)

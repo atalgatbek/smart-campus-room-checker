@@ -1,0 +1,8 @@
+npm audit (all dependencies), 28.11.2026 ~15:52, before fixes
+{"info":0,"low":2,"moderate":7,"high":13,"critical":2,"total":24}
+@babel/core low | @babel/helpers moderate | @eslint/plugin-kit low | @humanfs/node moderate
+@vitest/mocker moderate (fix: vitest@5 MAJOR) | ajv moderate | brace-expansion high | browserslist high
+cross-spawn high | esbuild moderate | flatted high | glob high | js-yaml high | minimatch high | nanoid high
+picomatch high | postcss high (direct) | postcss-selector-parser moderate | rollup high | source-map-js high
+tinypool critical (fix: vitest@5 MAJOR) | vite high (direct) | vitest critical (direct, fix: vitest@5 MAJOR) | yaml moderate
+All other fixes: available without a major version change ("fix: true").

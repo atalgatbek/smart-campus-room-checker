@@ -1,0 +1,12 @@
+SAST (source inspection), 28.11.2026 ~16:14 (GMT+5), Bolt terminal, my own Node script over the repository
+(.ts .tsx .js .json .md .html .env and _headers; node_modules, dist, .git and package-lock.json skipped)
+files scanned: 34
+dangerouslySetInnerHTML  none
+innerHTML                none   (assignments to .innerHTML)
+eval                     none   (eval( / new Function()
+network                  none   (fetch / XMLHttpRequest / WebSocket)
+storage                  none   (localStorage / sessionStorage / document.cookie)
+secret                   none   (api_key|secret|password|token = '...8+ chars')
+keyLike                  none   (sk-..., AKIA..., ghp_...)
+Also: npm run lint (ESLint + typescript-eslint) exit 0; npm run typecheck (tsc strict) exit 0.
+Published build used vite v5.4.21 (Publish Output).

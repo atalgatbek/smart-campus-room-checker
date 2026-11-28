@@ -1,0 +1,8 @@
+SCA fix: npm audit fix (no --force), 28.11.2026 16:05-16:08 (GMT+5), exit 1 (some fixes need a major version)
+"added 6 packages, removed 14 packages, changed 48 packages, and audited 297 packages in 2m"
+Direct updates: vite 5.4.8 -> 5.4.21, postcss -> 8.5.34 (vitest stays 2.1.9)
+After: {"info":0,"low":2,"moderate":13,"high":2,"critical":2,"total":19}
+Before: {"info":0,"low":2,"moderate":7,"high":13,"critical":2,"total":24}
+Remaining critical/high: vitest + tinypool (critical, fix only vitest@5 MAJOR), vite (high, fix only vite@8 MAJOR),
+brace-expansion (high, eslint toolchain). Moderate: @typescript-eslint/*, eslint chain, esbuild (needs vite major), sucrase.
+All remaining are devDependencies (build/test/lint tools). npm audit --omit=dev: 0 vulnerabilities before and after.

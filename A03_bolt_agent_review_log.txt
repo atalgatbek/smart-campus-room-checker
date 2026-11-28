@@ -1,0 +1,32 @@
+Agentic code review - Bolt.new built-in agent, Plan mode (no file changes), 28.11.2026 ~15:55 (GMT+5)
+
+PROMPT (sent by me):
+Read AGENTS.md first and follow it. This is a CODE REVIEW ONLY: do not change, create or delete any files and do not
+run install commands. Review the code-based implementation (src/lib/*.ts and src/App.tsx) for correctness, security,
+maintainability, testing and failure handling. Give at least 5 findings. For each finding write: file and line, what is
+wrong, why it matters, severity (high / medium / low), and how I can verify it (a test or exact steps). If you are not
+sure about a finding, say so.
+
+AGENT ACTIONS: read AGENTS.md, read 5 source files and 7 test files. Stated: "No files changed, no commands run."
+
+AGENT OUTPUT (summary of each finding, wording shortened):
+F1 Confirmed, Medium - src/App.tsx:40-43 + src/lib/explainValidation.ts:16. A valid slot ending exactly at 24:00
+   (23:00 + 60) is Available, but the UI computes endTime with "< 1440", so end = '' ; the explanation request is
+   rejected and the page shows "could not be generated". Even with "<=", the validator regex rejects "24:00".
+   Verify: preview, Start 23:00, Duration 60, click Explain (normal mode).
+F2 Confirmed, Low - src/lib/mockExplain.ts:64-68. Promise.race losers are not cleaned up: the 3500 ms timer in slow
+   mode keeps running; the abort listener is never removed if the call resolves normally. Minor resource leak.
+F3 Confirmed, Low - src/lib/explainValidation.ts:41. "At most two sentences" is counted by splitting on [.!?];
+   'a'.repeat(300) (no punctuation) passes. (Agent: "I did not run it.")
+F4 Hypothesis, Low/Medium - src/lib/mockExplain.ts:31-46 + explainValidation.ts:18-33. The validator does not check
+   that isAvailable matches reasonCode; { isAvailable: true, reasonCode: 'BLOCKED' } produces "is available ...
+   because the room is currently blocked". Not reachable from the current UI.
+F5 Confirmed, Low - src/App.tsx:38-43. The end-time bound (< 1440) is a second copy of the "end by 24:00" rule from
+   canBook.ts:38 and has already drifted (root cause of F1).
+F6 Confirmed, Low - src/lib/checkRequest.ts:5-9. parseDuration accepts huge integers ('999999999999999999999');
+   the result is INVALID_TIME "Times must be within 00:00-24:00." - a bounds message for a duration input.
+Agent notes: cancellation (AC8) is correct; canBook rules unchanged; REASON_CODES single source of truth.
+Agent: "I did not run npm test / typecheck / lint / build (read-only review, plan mode)."
+Agent summary: F1 is the highest-value item; fixing it needs a design decision (accept 24:00 as an end, or send another
+representation) - "a design choice I'd want you to approve before proposing a patch".
+Tokens: 1.1M -> 957K monthly tokens remaining after the review.

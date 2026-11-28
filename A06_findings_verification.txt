@@ -1,0 +1,16 @@
+Verification of the agent's findings on version 12 (temporary test file src/lib/zz.verify.test.ts, deleted after the run)
+28.11.2026 16:00:33 (GMT+5) - npx vitest run src/lib/zz.verify.test.ts
+ ✓ F1: 23:00 + 60 is AVAILABLE, but an explanation request ending at 24:00 is rejected
+ ✓ F2: slow mode resolves with a timer still pending
+ ✓ F3: a 300-character text without punctuation passes the two-sentence check
+ ✓ F4: isAvailable=true with reasonCode BLOCKED is accepted and gives a contradictory text
+ ✓ F6: a duration that runs past 24:00 gets the bounds message, not a duration message
+ Test Files 1 passed (1), Tests 5 passed (5)
+Agent claim "checkRequest test line 67 confirms 23:00+60 -> AVAILABLE": checked, line 67 is exactly that test (true).
+
+Live reproduction on https://smart-campus-room-av-yihv.bolt.host (version 12, bundle index-zh8yYGxH.js), ~15:59:
+ F1: start 23:00, duration 60 -> card "Available | This time slot is available.", hint "Max 120 minutes" (no "Ends at"),
+     Explain (normal) -> "The explanation could not be generated. The result card above remains the confirmed status."
+ F6: 23:30 + 60 -> "Unavailable | Times must be within 00:00–24:00."
+     23:00 + 121 -> "Unavailable | Times must be within 00:00–24:00." (not "Maximum duration is 120 minutes.")
+     11:00 + 999999999999999999999 -> "Unavailable | Times must be within 00:00–24:00."

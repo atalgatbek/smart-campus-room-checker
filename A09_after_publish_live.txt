@@ -1,0 +1,11 @@
+Published 28.11.2026 ~16:09 (GMT+5). Live bundle index-hgI8T_R8.js (was index-zh8yYGxH.js).
+F1 after fix: 23:00 + 60 -> "Available | This time slot is available.", hint "Ends at 24:00",
+  Explain (normal) -> "Room 204 — Main Building is available for 23:00–24:00 because no confirmed booking overlaps this slot. This reflects the confirmed status shown above."
+Response headers of https://smart-campus-room-av-yihv.bolt.host/ after publish (before: only strict-transport-security):
+  content-security-policy: frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none'
+  permissions-policy: camera=(), microphone=(), geolocation=()
+  referrer-policy: strict-origin-when-cross-origin
+  strict-transport-security: max-age=31536000; includeSubDomains; preload
+  x-content-type-options: nosniff
+  x-frame-options: DENY
+Third-party script on the page: https://bolt.new/badge.js (added by Bolt hosting, not in the source).

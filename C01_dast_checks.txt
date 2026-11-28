@@ -1,0 +1,15 @@
+Safe manual runtime checks (DAST), only on my own two apps, 28.11.2026 ~16:12-16:14 (GMT+5). No scanner, no third-party target.
+
+Code-based (live, after publish):
+  duration <- '<img src=x onerror=window.__xss=1>' -> browser number input keeps no text (value ""), "Duration is required.", xss flag 0, no <img src="x"> in the DOM
+  start    <- '<script>alert(1)</script>'          -> time input keeps no text, "Start time is required."
+  elements with on* attributes in the page: 0
+  response headers: before = only strict-transport-security; after = CSP (frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none'), X-Frame-Options DENY, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy
+  third-party script added by the host: https://bolt.new/badge.js
+
+Low-code (Appsmith deployed app):
+  start <- '<img src=x onerror=window.__xss=1>' -> shown as plain text in the field, "Start time is required. | MISSING_INPUT", xss flag 0, no <img src="x">
+  start <- '{{appsmith.user.email}}'            -> stays plain text, not evaluated; "Start time is required."
+  duration <- '60; DROP TABLE bookings'          -> text stays visible, message "Duration is required." (misleading, T13 FAIL)
+  platform headers (passive read of my own app page): CSP "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; ...", X-Content-Type-Options nosniff, X-XSS-Protection 0
+  -> the platform needs unsafe-eval for its {{ }} bindings; I cannot change the platform CSP on the free plan.
