@@ -23,7 +23,7 @@ The 8 shared test cases (T1-T8) are automated in `src/lib/contract.test.ts` and 
 
 ## Code-based version
     npm install
-    npm test            # 64 tests, incl. 8 contract cases
+    npm test            # 75 tests, incl. 8 contract cases and 11 review regression tests
     npm run typecheck && npm run lint && npm run build
 
 Structure: validation `src/lib/checkRequest.ts`, rules `src/lib/canBook.ts`, UI `src/App.tsx`. Rules for AI agents: `AGENTS.md`.
@@ -31,5 +31,9 @@ Structure: validation `src/lib/checkRequest.ts`, rules `src/lib/canBook.ts`, UI 
 ## Low-code version
 Appsmith app "Smart Campus Low-code": 2 inputs, 1 switch, 3 text widgets and one JS object (`Rules`) for the availability rule.
 To restore it: Appsmith -> Create new -> Import -> `lowcode/appsmith-export.json`.
+
+## Assignment #06
+Agentic code review, fixes, security assessment and the 13-case comparison: report and evidence in assignment06/.
+Security headers for the published site: public/_headers.
 
 No real personal data, no login, no database, no secrets.
